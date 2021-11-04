@@ -46,7 +46,6 @@ namespace TodorStoykovEmployees.Business
 
         #endregion
 
-
         #region Methods
 
         /// <summary>
