@@ -70,34 +70,23 @@ namespace TodorStoykovEmployees.Controllers
             HomeModel ModelForHomeView = new HomeModel();
             ModelForHomeView.UploadDateFile = model;
             ModelForHomeView.EmployeesProjectsGridData = new EmployeesProjectsGridModel();
-
-            List<EmployeeProject> AllParsedEmployeesProjects = new List<EmployeeProject>();
+                        
 
             try
             {
-                // Reading the file and parsing the data
+                // Collection To Get All The Emplyees Project Data from the Data Source file
+                EmployeeProjectCollection AllEmplyeesProjectFromTheFile = new EmployeeProjectCollection();
 
                 foreach (var formFile in model.input_file_data)
-                {
-                    using (StreamReader reader_stream = new StreamReader(formFile.OpenReadStream()))
-                    {
-                        while (reader_stream.Peek() >= 0)
-                        {
-                            // Getting the single line of the data from the file
-                            string SingleEmployeeProejectDataSource = reader_stream.ReadLine();
-
-                            // Creating the Employee Project data and binding the data to the object properties
-                            EmployeeProject SingleEmployeeProject = new EmployeeProject();
-                            SingleEmployeeProject.DataBind(SingleEmployeeProejectDataSource, ",", model.input_date_format.Split(',',StringSplitOptions.TrimEntries).ToArray());
-
-                            // Adding the single EmployeeProject object to the list
-                            AllParsedEmployeesProjects.Add(SingleEmployeeProject);
-                        }
-                    }
+                {            
+                    //Providing the Stream from the upload file to the Bind methods to extract the data for the employees and projects
+                    AllEmplyeesProjectFromTheFile.GetAllEmployeesProjectsFromStream(new StreamReader(formFile.OpenReadStream()), ",", model.input_date_format);
                 }
 
 
-                var AllEmployeesProject = from emp_pro1 in AllParsedEmployeesProjects
+                List<EmployeeProject> AllParsedEmployeesProjects = AllEmplyeesProjectFromTheFile.AllEmployeesProjectsData;
+
+                var AllEmployeesProject = (from emp_pro1 in AllParsedEmployeesProjects
                                           join emp_pro2 in AllParsedEmployeesProjects
                                           on emp_pro1.ProjectId equals emp_pro2.ProjectId
                                           where emp_pro1.EmployeeId != emp_pro2.EmployeeId
@@ -108,7 +97,7 @@ namespace TodorStoykovEmployees.Controllers
                                               ProjectId = emp_pro1.ProjectId,
                                               DateFrom = emp_pro1.DateFrom.CompareTo(emp_pro2.DateFrom) < 0 ? emp_pro2.DateFrom : emp_pro1.DateFrom,
                                               DateTo = emp_pro1.DateTo.Value.CompareTo(emp_pro2.DateTo.Value) > 0 ? emp_pro2.DateTo.Value : emp_pro1.DateTo.Value,
-                                          };
+                                          }).Distinct();
 
 
                 var PairEmployeesProjectWorkedLongest = (from all_empl_pro in AllEmployeesProject

@@ -18,7 +18,7 @@
 
 
             
-            <textarea required id="input_date_format" name="input_date_format" rows="3" style="width:100%;">
+            <textarea required id="input_date_format" name="input_date_format" rows="3" style="width:100%;"  class="form-control">
                 @if(Model!= null && !string.IsNullOrEmpty(Model.input_date_format))
                 {
                     @Model.input_date_format;
@@ -37,7 +37,7 @@
 
         <div class="col-md-5" style="text-align:left">
 
-            <input type="file" id="input_file_data" name="input_file_data" onchange="this.form.submit();" accept="text/plain" />
+            <input type="file" id="input_file_data" name="input_file_data" onchange="this.form.submit();" accept="text/plain" class="form-control"/>
 
         </div>
 
