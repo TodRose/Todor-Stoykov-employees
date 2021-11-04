@@ -86,35 +86,19 @@ namespace TodorStoykovEmployees.Controllers
 
                 List<EmployeeProject> AllParsedEmployeesProjects = AllEmplyeesProjectFromTheFile.AllEmployeesProjectsData;
 
-                var AllEmployeesProject = (from emp_pro1 in AllParsedEmployeesProjects
-                                          join emp_pro2 in AllParsedEmployeesProjects
-                                          on emp_pro1.ProjectId equals emp_pro2.ProjectId
-                                          where emp_pro1.EmployeeId != emp_pro2.EmployeeId
-                                          select new
-                                          {
-                                              EmployeedId1 = (emp_pro1.EmployeeId),
-                                              EmployeedId2 = emp_pro2.EmployeeId,
-                                              ProjectId = emp_pro1.ProjectId,
-                                              DateFrom = emp_pro1.DateFrom.CompareTo(emp_pro2.DateFrom) < 0 ? emp_pro2.DateFrom : emp_pro1.DateFrom,
-                                              DateTo = emp_pro1.DateTo.Value.CompareTo(emp_pro2.DateTo.Value) > 0 ? emp_pro2.DateTo.Value : emp_pro1.DateTo.Value,
-                                          }).Distinct();
+                int EmployeeIdPairOne = 0;
+                int EmployeeIdPairTwo = 0;
+                int ProjectIdWorkedtogether = 0;
+                int MaxDaysWoredTogether = 0;
 
+                bool FoundIt = AllEmplyeesProjectFromTheFile.FindThePairOfEmployeesWorkingLongest(ref EmployeeIdPairOne, ref EmployeeIdPairTwo, ref ProjectIdWorkedtogether, ref MaxDaysWoredTogether);
 
-                var PairEmployeesProjectWorkedLongest = (from all_empl_pro in AllEmployeesProject
-                                                         select new
-                                                         {
-                                                             EmployeedId1 = all_empl_pro.EmployeedId1,
-                                                             EmployeedId2 = all_empl_pro.EmployeedId2,
-                                                             ProjectId = all_empl_pro.ProjectId,
-                                                             DaysWorkedTogether = all_empl_pro.DateTo.Subtract(all_empl_pro.DateFrom).Days
-                                                         }).OrderByDescending(emp_proj => emp_proj.DaysWorkedTogether);
-
-                if(PairEmployeesProjectWorkedLongest.Count() > 1)
+                if(FoundIt)
                 {
-                    ModelForHomeView.EmployeesProjectsGridData.EmployeeIdPairOne = PairEmployeesProjectWorkedLongest.First().EmployeedId1;
-                    ModelForHomeView.EmployeesProjectsGridData.EmployeeIdPairTwo = PairEmployeesProjectWorkedLongest.First().EmployeedId2;
-                    ModelForHomeView.EmployeesProjectsGridData.ProjectIdWorkedtogether = PairEmployeesProjectWorkedLongest.First().ProjectId;
-                    ModelForHomeView.EmployeesProjectsGridData.MaxDaysWoredTogether = PairEmployeesProjectWorkedLongest.First().DaysWorkedTogether;
+                    ModelForHomeView.EmployeesProjectsGridData.EmployeeIdPairOne = EmployeeIdPairOne;
+                    ModelForHomeView.EmployeesProjectsGridData.EmployeeIdPairTwo = EmployeeIdPairTwo;
+                    ModelForHomeView.EmployeesProjectsGridData.ProjectIdWorkedtogether = ProjectIdWorkedtogether;
+                    ModelForHomeView.EmployeesProjectsGridData.MaxDaysWoredTogether = MaxDaysWoredTogether;
                 }
             }
 
