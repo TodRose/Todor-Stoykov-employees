@@ -1,0 +1,46 @@
+﻿@model TodorStoykovEmployees.Models.UploadDataFileModel
+
+@{
+    Layout = null;
+}
+
+<form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="UploadFiles">
+
+    <div class="row" style="margin-top:50px;">
+
+        <div class="col-md-5" style="text-align:left">
+            <h5>Date format</h5>
+        </div>
+
+        <div class="col-md-5" style="text-align:left">
+
+            @*<input type="text" id="input_date_format" name="input_date_format" value="@Model.input_date_format" required />*@
+
+
+            
+            <textarea required id="input_date_format" name="input_date_format" rows="3" style="width:100%;">
+                @if(Model!= null && !string.IsNullOrEmpty(Model.input_date_format))
+                {
+                    @Model.input_date_format;
+                }
+            </textarea>
+            
+        </div>
+
+    </div>
+
+    <div class="row" style="margin-top:50px;">
+
+        <div class="col-md-5" style="text-align:left">
+            <h5>Upload the data source file</h5>
+        </div>
+
+        <div class="col-md-5" style="text-align:left">
+
+            <input type="file" id="input_file_data" name="input_file_data" onchange="this.form.submit();" accept="text/plain" />
+
+        </div>
+
+    </div>
+
+</form>

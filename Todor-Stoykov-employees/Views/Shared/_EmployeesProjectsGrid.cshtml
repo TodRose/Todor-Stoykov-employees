@@ -1,0 +1,47 @@
+﻿@model  TodorStoykovEmployees.Models.UploadDataFileModel
+
+<div class="row" style="margin-top:70px; text-align:left;">
+
+    <div class="col-md-2">
+        <h5>EmployeeID#1</h5>
+    </div>
+
+    <div class="col-md-2">
+        <h5>EmployeeID#2</h5>
+    </div>
+
+    <div class="col-md-2">
+        <h5>ProjectId</h5>
+    </div>
+
+    <div class="col-md-2">
+        <h5>Days worked</h5>
+    </div>
+
+</div>
+
+
+@if (Model != null && Model.EmployeeIdPairOne != 0 && Model.ProjectIdWorkedtogether != 0)
+{
+
+<div class="row" style=" text-align:left;" >
+
+    <div class="col-md-2">
+        @Model.EmployeeIdPairOne
+    </div>
+
+    <div class="col-md-2">
+        @Model.EmployeeIdPairTwo
+    </div>
+
+    <div class="col-md-2">
+        @Model.ProjectIdWorkedtogether
+    </div>
+
+    <div class="col-md-2">
+        @Model.MaxDaysWoredTogether
+    </div>
+
+</div>
+
+}
