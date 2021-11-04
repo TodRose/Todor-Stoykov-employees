@@ -81,11 +81,21 @@ namespace TodorStoykovEmployees.Business
                 if (Fields.Length >= 3)
                 {
                     DateTime date_from;
-                    
-                    if(DateTime.TryParseExact(Fields[2].Trim(), DateFormatsInTheSource, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out date_from))
+
+                    if (DateTime.TryParseExact(Fields[2].Trim(), DateFormatsInTheSource, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out date_from))
                         DateFrom = date_from;
                     else
-                        DateFrom = DateTime.Parse(Fields[2].Trim());
+                    {
+                        try
+                        {
+                            DateFrom = DateTime.Parse(Fields[2].Trim());
+                        }
+                        catch
+                        {
+                            DateFrom = DateTime.Now;
+                        }
+                    }
+
                 }
 
                 if (Fields.Length >= 4)
@@ -95,7 +105,16 @@ namespace TodorStoykovEmployees.Business
                     if (DateTime.TryParseExact(Fields[3].Trim(), DateFormatsInTheSource, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out date_to))
                         DateTo = date_to;
                     else
-                        DateTo = DateTime.Parse(Fields[3].Trim());                     
+                    {
+                        try
+                        {
+                            DateTo = DateTime.Parse(Fields[3].Trim());
+                        }
+                        catch
+                        {
+                            DateTo = DateTime.Now;
+                        }
+                    }
                 }
                 else
                 {

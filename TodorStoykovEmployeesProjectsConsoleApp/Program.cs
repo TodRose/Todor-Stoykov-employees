@@ -5,9 +5,11 @@ using TodorStoykovEmployees.Business;
 
 namespace TodorStoykovEmployeesProjectsConsoleApp
 {
+    
+
     class Program
     {
-        static void Main(string[] args)
+        static void ParseFile()
         {
             Console.WriteLine("Find which two employees worked together the longest!\n");
 
@@ -17,7 +19,7 @@ namespace TodorStoykovEmployeesProjectsConsoleApp
 
             string FilePath = Console.ReadLine();
 
-            
+
             StreamReader stream_reader = new StreamReader(File.OpenRead(FilePath));
 
             string DateFormat = "yyyy/MM/dd, MM/dd/yyyy, MM/dd/yyyy HH:mm:ss, yyyy-MM-dd, yyyy-MM-dd HH:mm:ss.fff, yyyy-MM-dd HH:mm:ss";
@@ -51,14 +53,22 @@ namespace TodorStoykovEmployeesProjectsConsoleApp
                                                 .Append(" \t\t ")
                                                 .Append(MaxDaysWoredTogether);
 
-                    
+
                     Console.WriteLine(DataFounce.ToString());
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Console.Write(ex.Message);
+                Console.WriteLine("Unfortunately there was an error reading the file! Error message: \n");
+                Console.Write(ex.Message + "\n\n");
+                Console.WriteLine("Please try again with different file! \n");
             }
+        }
+
+
+        static void Main(string[] args)
+        {
+            ParseFile();
 
             Console.WriteLine("\n\n\n\n Please press enter to Exit the application");
             Console.ReadKey();
