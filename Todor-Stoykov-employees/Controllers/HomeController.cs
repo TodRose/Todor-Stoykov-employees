@@ -82,9 +82,7 @@ namespace TodorStoykovEmployees.Controllers
                     //Providing the Stream from the upload file to the Bind methods to extract the data for the employees and projects
                     AllEmplyeesProjectFromTheFile.GetAllEmployeesProjectsFromStream(new StreamReader(formFile.OpenReadStream()), ",", model.input_date_format);
                 }
-
-
-                List<EmployeeProject> AllParsedEmployeesProjects = AllEmplyeesProjectFromTheFile.AllEmployeesProjectsData;
+                
 
                 int EmployeeIdPairOne = 0;
                 int EmployeeIdPairTwo = 0;
