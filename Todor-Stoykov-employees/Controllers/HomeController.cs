@@ -34,9 +34,11 @@ namespace TodorStoykovEmployees.Controllers
         #region Actions
 
         public IActionResult Index()
-        {
-            UploadDataFileModel model = new UploadDataFileModel();
+        {            
+            HomeModel model = new HomeModel();
 
+            model.UploadDateFile = new UploadDataFileModel();
+            
 
             return View(model);
         }
@@ -64,6 +66,11 @@ namespace TodorStoykovEmployees.Controllers
         [HttpPost]
         public IActionResult UploadFiles(UploadDataFileModel model)
         {
+
+            HomeModel ModelForHomeView = new HomeModel();
+            ModelForHomeView.UploadDateFile = model;
+            ModelForHomeView.EmployeesProjectsGridData = new EmployeesProjectsGridModel();
+
             List<EmployeeProject> AllParsedEmployeesProjects = new List<EmployeeProject>();
 
             try
@@ -115,10 +122,10 @@ namespace TodorStoykovEmployees.Controllers
 
                 if(PairEmployeesProjectWorkedLongest.Count() > 1)
                 {
-                    model.EmployeeIdPairOne = PairEmployeesProjectWorkedLongest.First().EmployeedId1;
-                    model.EmployeeIdPairTwo = PairEmployeesProjectWorkedLongest.First().EmployeedId2;
-                    model.ProjectIdWorkedtogether = PairEmployeesProjectWorkedLongest.First().ProjectId;
-                    model.MaxDaysWoredTogether = PairEmployeesProjectWorkedLongest.First().DaysWorkedTogether;
+                    ModelForHomeView.EmployeesProjectsGridData.EmployeeIdPairOne = PairEmployeesProjectWorkedLongest.First().EmployeedId1;
+                    ModelForHomeView.EmployeesProjectsGridData.EmployeeIdPairTwo = PairEmployeesProjectWorkedLongest.First().EmployeedId2;
+                    ModelForHomeView.EmployeesProjectsGridData.ProjectIdWorkedtogether = PairEmployeesProjectWorkedLongest.First().ProjectId;
+                    ModelForHomeView.EmployeesProjectsGridData.MaxDaysWoredTogether = PairEmployeesProjectWorkedLongest.First().DaysWorkedTogether;
                 }
             }
 
@@ -127,7 +134,9 @@ namespace TodorStoykovEmployees.Controllers
                 return RedirectToAction("Error");
             }             
 
-            return View("Index", model);
+
+
+            return View("Index", ModelForHomeView);
         }
 
 
